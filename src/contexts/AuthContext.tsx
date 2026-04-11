@@ -1,8 +1,8 @@
-// app/contexts/AuthContext.tsx
-import AsyncStorage from '@/utils/storage';
+// src/contexts/AuthContext.tsx
 import axios from "axios";
 import { useRouter } from "expo-router";
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import AsyncStorage from '../utils/storage';
 
 const joinUrl = (base: string, path: string) =>
     `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
@@ -91,26 +91,32 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
                     fullName?: string;
                 };
             };
+            console.log("=== LOGIN DEBUG START ===");
             console.log("baseUrl", sanitizedBaseUrl);
+            
             const endpointCandidates = getAuthEndpointCandidates(sanitizedBaseUrl, 'user/login/mobile');
+            console.log("endpointCandidates", endpointCandidates);
             let response: { data: LoginResponse; headers: any } | null = null;
             let lastError: unknown = null;
 
             for (const endpoint of endpointCandidates) {
                 try {
+                    console.log("Trying endpoint:", endpoint);
                     response = await axios.post<LoginResponse>(
                         endpoint,
                         { username, password },
                         {
-                            timeout: 10000,
+                            timeout: 15000,
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json'
                             }
                         }
                     );
+                    console.log("Success! Response:", response.data);
                     break;
                 } catch (err: any) {
+                    console.log("Endpoint failed:", endpoint, err.message);
                     lastError = err;
                     if (err?.response?.status === 404) {
                         continue;

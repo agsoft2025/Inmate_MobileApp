@@ -1,7 +1,7 @@
-// app/hooks/useRazorpay.ts
+// src/hooks/useRazorpay.ts
 import RazorpayCheckout from "react-native-razorpay";
 import Toast from "react-native-toast-message";
-import { createOrder, verifyPayment } from "../service/paymentService";
+import { createOrder, verifyPayment } from "../services/service/paymentService";
 
 export const useRazorpay = () => {
   const startPayment = async (studentId: string, amount: number, subscription: boolean = false,selectedDuration?:string) => {

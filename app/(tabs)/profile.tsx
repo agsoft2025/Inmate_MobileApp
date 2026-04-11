@@ -2,9 +2,9 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { inmateApi } from '../api/inmate';
-import { useAuth } from '../contexts/AuthContext';
-import { Inmate } from '@/types/inmate';
+import { useAuth } from '../../src/contexts/AuthContext';
+import { inmateApi } from '../../src/services/api/inmate';
+import { Inmate } from '../../types/inmate';
 
 function ProfileContent() {
   const router = useRouter();

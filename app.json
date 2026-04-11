@@ -22,7 +22,9 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.agummi.inmatemobileapp"
+      "package": "com.agummi.inmatemobileapp",
+      "usesCleartextTraffic": true,
+      "networkSecurityConfig": "./network_security_config.xml"
     },
 
     "web": {
@@ -55,7 +57,8 @@
     "extra": {
       "projectId": "your-project-id",
       "apiUrl": "https://inmate-project.onrender.com/",
-      "globalurl": "https://inmate-project-global-server.onrender.com/",
+      "globalurl": "https://nvl2rk2s-4001.inc1.devtunnels.ms/",
+      // "globalurl": "https://inmateglobalserver-be.onrender.com/",
       "router": {},
       "eas": {
         "projectId": "a023998c-e61b-46df-9c7e-ab9e6284e9bd"

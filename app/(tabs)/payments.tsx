@@ -1,8 +1,8 @@
-import AsyncStorage from '@/utils/storage';
 import { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useRazorpay } from '../hooks/useRazorpay';
+import { useRazorpay } from '../../src/hooks/useRazorpay';
+import AsyncStorage from '../../src/utils/storage';
 
 export default function PaymentScreen() {
   const [amount, setAmount] = useState('');

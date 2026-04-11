@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@/utils/storage';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
@@ -15,8 +14,9 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import api from '../api/client';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../src/contexts/AuthContext';
+import api from '../../src/services/api/client';
+import AsyncStorage from '../../src/utils/storage';
 
 interface Location {
   _id: string;
@@ -65,14 +65,26 @@ export default function SignInScreen() {
     setError('');
 
     try {
-      const response = await axios.get(`${Constants.expoConfig?.extra?.globalurl}api/location?search=${searchQuery}`);
+      const apiUrl = Constants.expoConfig?.extra?.globalurl;
+      console.log("=== LOCATION SEARCH DEBUG ===");
+      console.log("API URL:", apiUrl);
+      console.log("Full URL:", `${apiUrl}api/location?search=${searchQuery}`);
+      
+      const response = await axios.get(`${apiUrl}api/location?search=${searchQuery}`);
+      console.log("Location search response:", response.data);
 
       if (response.data.status) {
         setLocations(response.data.data);
       } else {
         setError('Failed to fetch locations');
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.log("Location search error:", error);
+      console.log("Error details:", {
+        message: error.message,
+        code: error.code,
+        response: error.response?.data
+      });
       setError('Network error. Please try again.');
     } finally {
       setIsSearching(false);

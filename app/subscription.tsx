@@ -1,17 +1,17 @@
 // app/subscription.tsx
-import AsyncStorage from "@/utils/storage";
 import { useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import { useAuth } from "./contexts/AuthContext"; // Import the useAuth hook
-import { useRazorpay } from "./hooks/useRazorpay";
+import { useAuth } from "../src/contexts/AuthContext";
+import { useRazorpay } from "../src/hooks/useRazorpay";
+import AsyncStorage from "../src/utils/storage";
 
 export default function SubscriptionScreen() {
   const router = useRouter();
-  const { signIn } = useAuth(); // Use the signIn function from the useAuth hook
+  const { signIn } = useAuth(); 
   const { startPayment } = useRazorpay();
   const [loading, setLoading] = useState(false);
   const [subscriptionAmount, setSubscriptionAmount] = useState<number | null>(null);
