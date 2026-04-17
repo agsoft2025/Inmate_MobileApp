@@ -21,8 +21,8 @@ function ProfileContent() {
       try {
         const response = await inmateApi.getInmateById(user.username);
         
-        if (response.success && response.data.length > 0) {
-          setInmate(response.data[0]);
+        if (response.success && response.data) {
+          setInmate(response.data as any);
         }
         setError(null);
       } catch (err) {
