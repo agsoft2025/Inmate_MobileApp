@@ -2,6 +2,7 @@
   "expo": {
     "name": "Inmate Management",
     "slug": "inmatemobileapp",
+    "scheme": "inmateapp",
     "icon": "./assets/images/icon.png",
     "plugins": [
       [
