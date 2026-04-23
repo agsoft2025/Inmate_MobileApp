@@ -11,8 +11,7 @@ const joinUrl = (base: string, path: string) =>
 
 const getAuthEndpointCandidates = (baseUrl: string, path: string) => {
     const normalized = baseUrl.replace(/\/+$/, '');
-    const withoutApi = normalized.replace(/\/api$/i, '');
-    const urls = [joinUrl(withoutApi, path)];
+    const urls = [joinUrl(normalized, path)];
     return urls;
 };
 

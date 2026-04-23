@@ -9,8 +9,7 @@ const joinUrl = (base: string, path: string) =>
 
 const getAuthEndpointCandidates = (baseUrl: string, path: string) => {
     const normalized = baseUrl.replace(/\/+$/, '');
-    const withoutApi = normalized.replace(/\/api$/i, '');
-    const urls = [joinUrl(withoutApi, path)];
+    const urls = [joinUrl(normalized, path)];
     return urls;
 };
 // Define the User interface
@@ -77,7 +76,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
 
             const { baseUrl } = JSON.parse(location);
-            const sanitizedBaseUrl = String(baseUrl || '').replace(/\/+$/, '').replace(/\/api$/i, '');
+            const sanitizedBaseUrl = String(baseUrl || '').replace(/\/+$/, '');
 
             type LoginResponse = {
                 status: boolean;
