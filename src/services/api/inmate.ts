@@ -4,7 +4,7 @@ import apiClient from './client';
 
 export const inmateApi = {
   getInmateById: async (inmateId: string): Promise<InmateResponse> => {
-    const response = await apiClient.get(`/inmate/inmateid/${inmateId}`);
+    const response = await apiClient.get(`/inmate/${inmateId}`);
     return response.data;
   },
 };

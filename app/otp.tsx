@@ -1,18 +1,17 @@
 // app/(auth)/otp.tsx
-import AsyncStorage from '@/utils/storage';
 import axios from 'axios';
 import { Stack, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useAuth } from './contexts/AuthContext';
+import { useAuth } from '../src/contexts/AuthContext';
+import AsyncStorage from '../src/utils/storage';
 
 const joinUrl = (base: string, path: string) =>
     `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
 
 const getAuthEndpointCandidates = (baseUrl: string, path: string) => {
     const normalized = baseUrl.replace(/\/+$/, '');
-    const withoutApi = normalized.replace(/\/api$/i, '');
-    const urls = [joinUrl(withoutApi, path)];
+    const urls = [joinUrl(normalized, path)];
     return urls;
 };
 

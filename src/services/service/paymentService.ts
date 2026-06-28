@@ -1,8 +1,9 @@
 // src/services/paymentService.ts
-import AsyncStorage from "@/utils/storage";
 import axios from "axios";
+import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
+import AsyncStorage from "../../utils/storage";
 
 // Helper function to get base URL
 const getBaseUrl = async () => {
@@ -11,7 +12,7 @@ const getBaseUrl = async () => {
     const { baseUrl } = JSON.parse(location);
     return baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   }
-  return "http://localhost:3000/api/";
+  return Constants.expoConfig?.extra?.apiUrl || "https://inmate-project.onrender.com/";
 };
 
 // Create Axios instance with dynamic baseURL

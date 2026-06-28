@@ -1,6 +1,6 @@
-// app/api/client.ts
-import AsyncStorage from '@/utils/storage';
+// src/services/api/client.ts
 import axios from 'axios';
+import AsyncStorage from '../../utils/storage';
 
 // Create axios instance with default URL
 const apiClient = axios.create({

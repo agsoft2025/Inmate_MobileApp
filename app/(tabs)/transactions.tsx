@@ -2,8 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import apiClient from '../api/client';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../src/contexts/AuthContext';
+import apiClient from '../../src/services/api/client';
 
 type WorkAssignId = {
   _id: string;
@@ -49,6 +49,7 @@ type Transaction = {
   }>;
   totalAmount?: number;
   is_reversed?: boolean;
+  isReversed?: boolean;
   createdAt: string;
   updatedAt: string;
   __v?: number;
@@ -214,10 +215,13 @@ export default function TransactionsScreen() {
   const renderItem = ({ item }: { item: Transaction }) => {
 
     try {
-      const type = getTransactionType(item);
       const amount = getAmount(item);
       const workAssignName = getWorkAssignName(item.workAssignId);
       const { date, time } = formatDateTime(item.createdAt);
+      const isPurchaseReversed = item.source === 'POS' && (item.isReversed || item.is_reversed);
+      const purchaseItems = item.products?.map(product =>
+        `${product.quantity}x ${product.productId.itemName}`
+      ) || [];
       // Create description based on transaction type
       let description = '';
       if (item.depositName) {
@@ -225,27 +229,30 @@ export default function TransactionsScreen() {
         if (item.depositType) {
           description += ` (${item.depositType})`;
         }
-      } else if (item.products?.length) {
-        // For POS transactions
-        const productNames = item.products.map(p =>
-          `${p.quantity}x ${p.productId.itemName}`
-        ).join(', ');
-        description = `Purchase: ${productNames}`;
+      } else if (purchaseItems.length) {
+        description = 'Purchase';
       } else {
         // Fallback to existing logic
         description = item.custodyType || workAssignName || item.transaction || 'Transaction';
       }
 
-      const credit = isCredit(item);
+      const credit = isCredit(item) || isPurchaseReversed;
 
       return (
         <View style={styles.transactionItem}>
           <View style={styles.transactionInfo}>
             <View style={styles.transactionHeader}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.transactionDesc} numberOfLines={1}>
+                <Text style={styles.transactionDesc}>
                   {description}
                 </Text>
+                {purchaseItems.length > 0 && (
+                  <View style={styles.purchaseItemsContainer}>
+                    <Text style={styles.purchaseItemText}>
+                      {purchaseItems.join(' | ')}{isPurchaseReversed ? ' (Reversed)' : ''}
+                    </Text>
+                  </View>
+                )}
                 {item.depositType && (
                   <Text style={styles.transactionType} numberOfLines={1}>
                     {item.depositType}
@@ -419,7 +426,7 @@ const styles = StyleSheet.create({
   transactionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 4,
   },
   transactionDetails: {
@@ -441,6 +448,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     fontStyle: 'normal',
+    marginTop: 2,
+  },
+  purchaseItemsContainer: {
+    marginTop: 4,
+  },
+  purchaseItemText: {
+    fontSize: 12,
+    color: '#666',
     marginTop: 2,
   },
   hoursWorked: {

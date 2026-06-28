@@ -2,7 +2,7 @@
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../src/contexts/AuthContext';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
